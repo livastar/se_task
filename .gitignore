@@ -1,0 +1,19 @@
+/build
+/target
+bin/
+target/
+
+
+*.idea/
+*.properties
+*.iml
+
+# osx noise
+.DS_Store
+*.DS_Store
+*.ipa
+*.swp
+*~.nib
+
+# Java class files
+*.class
