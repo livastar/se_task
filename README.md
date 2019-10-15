@@ -7,4 +7,5 @@ To run Kotlin implementation:
         
 To run Python implementation:
 1. Switch to `python_ex` branch
-2. Run `python3 printInfo.py` see the result
+2. Run `python3 printInfo.py "{sectionName}"` ex. Fulltime Result
+        it should look like: `python3 printInfo.py "Fulltime Result"`

@@ -7,6 +7,9 @@ target/
 *.idea/
 *.properties
 *.iml
+*.log
+*.venv
+
 
 # osx noise
 .DS_Store
