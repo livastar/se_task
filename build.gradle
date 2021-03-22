@@ -1,0 +1,200 @@
+import java.nio.charset.StandardCharsets
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        jcenter()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.8.1'
+    id "org.gradle.test-retry" version "1.2.0"
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+    jcenter()
+}
+
+compileJava { options.encoding = "UTF-8" }
+compileTestJava { options.encoding = "UTF-8" }
+
+group = 'com.graniterock.forecast'
+version '1.0.0'
+description = 'graniterock forecast'
+sourceCompatibility = 11
+targetCompatibility = 11
+
+/*
+* Define extra properties for the project object - project.ext
+*/
+ext {
+    encoding = StandardCharsets.UTF_8.name()
+}
+def junit = '5.7.0'
+def allureVersion = '2.13.8'
+def atlasVersion = '1.8.0'
+def lombok = '1.18.18'
+def log4j = '2.0.0-alpha1'
+def springBootStarter = '2.4.3'
+
+
+dependencies {
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    compile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    compile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
+
+    // https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine
+    compile group: 'org.junit.vintage', name: 'junit-vintage-engine', version: junit
+
+    // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner
+    compile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.6.0'
+
+
+    // https://mvnrepository.com/artifact/com.github.automatedowl/allure-environment-writer
+    compile group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
+
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+
+    // https://mvnrepository.com/artifact/io.qameta.allure/allure-junit5
+    compile group: 'io.qameta.allure', name: 'allure-junit5', version: allureVersion
+
+    // https://mvnrepository.com/artifact/io.qameta.atlas/atlas-webdriver
+    implementation group: 'io.qameta.atlas', name: 'atlas-webdriver', version: atlasVersion
+
+
+    // https://mvnrepository.com/artifact/org.reflections/reflections
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.12'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: log4j
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
+    compile group: 'org.slf4j', name: 'slf4j-api', version: log4j
+
+    // https://mvnrepository.com/artifact/org.aeonbits.owner/owner
+    implementation group: 'org.aeonbits.owner', name: 'owner', version: '1.0.12'
+
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombok
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombok
+    compile group: 'org.projectlombok', name: 'lombok', version: lombok
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    compile group: 'org.apache.commons', name: 'commons-text', version: '1.8'
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootStarter
+
+    implementation group: 'name.falgout.jeffrey.testing.junit5', name: 'guice-extension', version: '1.2.1'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+
+
+}
+
+
+/*
+* Allure Configuration
+*/
+allure {
+    version = allureVersion
+    aspectjweaver = false
+    autoconfigure = false
+    aspectjVersion = '1.9.1'
+}
+
+test {
+    boolean isCiServer = System.getenv().containsKey("ci")
+
+    if (isCiServer) {
+        retry {
+            maxRetries = 3
+            maxFailures = 20
+            failOnPassedAfterRetry = true
+        }
+    }
+
+    useJUnitPlatform() {
+        includeEngines 'junit-jupiter'
+        //includeTags 'fast', 'smoke'
+        //excludeTags 'slow', 'ci'
+    }
+    ignoreFailures = true
+    outputs.upToDateWhen { false }
+    testLogging.showStandardStreams = true
+    testLogging { events 'passed', 'skipped', 'failed' }
+    systemProperty('file.encoding', encoding)
+    systemProperty('BUILD_URL', System.getenv()['BUILD_URL'])
+    systemProperties = System.getProperties() as Map<String, ?>
+}
+
+//tasks.withType(Test) {
+//
+//    /*
+//    * Enable JUnit Platform (JUnit 5) support, default is JUnit
+//    */
+//    useJUnitPlatform() {
+//        /*
+//        * Filter by engines
+//        */
+//        includeEngines 'junit-jupiter'
+//
+//        /*
+//        * Filter by tags
+//        */
+//        //includeTags 'fast', 'smoke'
+//        //excludeTags 'slow', 'ci'
+//    }
+//
+//    /*
+//    * Make failing tests do not fail the task
+//    */
+//    ignoreFailures = true
+//
+//    /*
+//    * If any upToDateWhen spec returns false, the task is considered out of date.
+//    * If they return true, Gradle does the normal behavior of checking input/output files.
+//    */
+//    outputs.upToDateWhen { false }
+//
+//    /*
+//    * To show standard out and standard error of the test JVM(s) on the console
+//    */
+//    testLogging.showStandardStreams = true
+//
+//    /*
+//    *  Want to display the following test events
+//    */
+//    testLogging { events 'passed', 'skipped', 'failed' }
+//
+//    /*
+//    * When the JVM starts, it uses the JVMs platform encoding
+//    */
+//    systemProperty('file.encoding', encoding)
+//
+//    /*
+//    * Set BUILD_URL to JVM
+//    */
+//    systemProperty('BUILD_URL', System.getenv()['BUILD_URL'])
+//
+//    /*
+//    * To make the Gradle JVM system properties available to tests
+//    */
+//    systemProperties = System.getProperties() as Map<String, ?>
+//}
