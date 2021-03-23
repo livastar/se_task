@@ -12,7 +12,7 @@ public class WebDriverModule implements Module {
 
     @Override
     public void configure(final Binder binder) {
-        binder.bind(WebDriver.class).toProvider(WebDriverProvider.class);
+        binder.bind(WebDriver.class).toProvider(WebDriverProvider.class).asEagerSingleton();
     }
 
     @Provides

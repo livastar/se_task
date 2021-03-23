@@ -2,9 +2,8 @@ package core.configs;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import core.configs.driver.DriverManagerFactory;
-import core.configs.driver.DriverType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class WebDriverProvider implements Provider<WebDriver> {
 
@@ -17,7 +16,7 @@ public class WebDriverProvider implements Provider<WebDriver> {
 
     @Override
     public WebDriver get() {
-        return DriverManagerFactory.getManager(DriverType.get(webConfig.getDriverType())).getDriver();
+        return new ChromeDriver();
     }
 
 }
