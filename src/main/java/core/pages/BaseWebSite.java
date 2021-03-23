@@ -8,4 +8,7 @@ public interface BaseWebSite extends WebSite {
     @Page(url = "users/login")
     MainPage onMainPage();
 
+    @Page(url = "/dictionary")
+    DictionaryPage onDictionaryPage();
+
 }

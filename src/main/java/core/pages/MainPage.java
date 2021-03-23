@@ -12,9 +12,18 @@ import io.qameta.atlas.webdriver.extension.Selector;
 
 public interface MainPage extends WebPage {
 
+
     @Name("{text} inputBtn field")
-    @FindBy(value = "#{{ text }}", selector = Selector.CSS)
+    @FindBy(value = "#{{ text }\\}", selector = Selector.CSS)
     AtlasWebElement inputBtn(@Param("text") String text);
+
+    @Name("username input")
+    @FindBy(value = "//*[@id='UserUsername']")
+    AtlasWebElement userName();
+
+    @Name("password input")
+    @FindBy(value = "//*[@id='UserPassword']")
+    AtlasWebElement password();
 
     @Name("Submit button")
     @FindBy(value = "inputBtn[type='submit'][value='Log In']", selector = Selector.CSS)
@@ -32,8 +41,8 @@ public interface MainPage extends WebPage {
 
     @Step("Login with credentials for user with email {user.email}")
     default void loginWith(User user) {
-        inputBtn("UserUsername").sendKeys(user.getEmail());
-        inputBtn("UserPassword").sendKeys(user.getPassword());
+        userName().sendKeys(user.getEmail());
+        password().sendKeys(user.getPassword());
         submitBtn().click();
     }
 

@@ -1,10 +1,8 @@
 package com.granitrock.forecast.common;
 
 import com.google.inject.Inject;
-import core.configs.BaseWebSiteProvider;
 import core.configs.TestModule;
 import core.configs.WebConfig;
-import core.configs.WebDriverProvider;
 import core.pages.BaseWebSite;
 import name.falgout.jeffrey.testing.junit.guice.IncludeModule;
 import org.aeonbits.owner.ConfigFactory;
@@ -24,18 +22,10 @@ public class BaseTest {
     public static final WebConfig config = ConfigFactory.create(WebConfig.class);
 
     @Inject
-    BaseWebSiteProvider baseWebSite;
+    BaseWebSite baseWebSite;
 
     @Inject
-    WebDriverProvider webDriverProvider;
-
-    BaseWebSite getWebSite() {
-        return baseWebSite.get();
-    }
-
-    WebDriver getDriver() {
-        return webDriverProvider.get();
-    }
+    WebDriver driver;
 
     @AfterAll
     static void addingEnvironmentVariablesToAllureReport() throws IOException {
@@ -51,7 +41,7 @@ public class BaseTest {
 
     @AfterEach
     protected void closeDriver() {
-        getDriver().quit();
+        driver.quit();
     }
 
 }

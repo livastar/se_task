@@ -22,6 +22,5 @@ public class WebDriverProvider implements Module, Provider<WebDriver> {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(WebDriver.class).toProvider(WebDriverProvider.class).in(Scopes.SINGLETON);
     }
 }

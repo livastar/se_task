@@ -3,6 +3,7 @@ package com.granitrock.forecast.common;
 import core.helpers.User;
 import io.qameta.allure.*;
 import io.qameta.atlas.webdriver.extension.Name;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 
@@ -20,7 +21,9 @@ public class ExampleTest extends BaseTest {
     @Story("Portal UI")
     @Name("This test demonstrates how to use Selenide, JUnit5, Allure...")
     public void passedTest() {
-        getWebSite().onMainPage().loginWith(oldUser);
+        baseWebSite.onMainPage().loginWith(oldUser);
+        baseWebSite.onDictionaryPage().tutoringCmtTxt().should("ERROR_>>>>>",
+                Matchers.containsString("Tutoring comment"));
 //        onWebSite.onMainPage().pageTitle().should("User is not found",
 //                Matchers.containsInAnyOrder("Student Portal"));
     }

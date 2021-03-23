@@ -14,6 +14,6 @@ public class WebConfigProvider implements Module, Provider<WebConfig> {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(WebConfig.class).toProvider(WebConfigProvider.class);
     }
+
 }

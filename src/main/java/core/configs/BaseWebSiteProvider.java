@@ -36,7 +36,6 @@ public class BaseWebSiteProvider implements Module, Provider<BaseWebSite> {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(BaseWebSite.class).toProvider(BaseWebSiteProvider.class);
     }
 
 }
