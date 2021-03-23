@@ -9,15 +9,14 @@ import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.core.context.RetryerContext;
 import io.qameta.atlas.core.internal.DefaultRetryer;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
-import io.qameta.atlas.webdriver.WebSite;
 import org.openqa.selenium.WebDriver;
 
 import java.util.Collections;
 
-public class BaseWebSiteProvider implements Module, Provider<WebSite> {
+public class BaseWebSiteProvider implements Module, Provider<BaseWebSite> {
 
-    WebDriver webDriver;
     WebConfig webConfig;
+    WebDriver webDriver;
     Atlas atlas;
 
     @Inject
@@ -37,7 +36,7 @@ public class BaseWebSiteProvider implements Module, Provider<WebSite> {
 
     @Override
     public void configure(Binder binder) {
-//        binder.bind(WebSite.class).toProvider(BaseWebSiteProvider.class);
+        binder.bind(BaseWebSite.class).toProvider(BaseWebSiteProvider.class);
     }
 
 }

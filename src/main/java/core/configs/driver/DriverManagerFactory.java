@@ -13,7 +13,7 @@ public class DriverManagerFactory {
 //                return null; //should be implemented
 //            break;
             case CHROME:
-                driverManager = new ChromeDriverManager();
+                driverManager = new core.configs.driver.ChromeDriverManager();
                 break;
 //            case FIREFOX:
 //                return null; //should be implemented

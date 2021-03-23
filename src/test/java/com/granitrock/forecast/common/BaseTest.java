@@ -1,28 +1,41 @@
 package com.granitrock.forecast.common;
 
 import com.google.inject.Inject;
+import core.configs.BaseWebSiteProvider;
+import core.configs.TestModule;
+import core.configs.WebConfig;
+import core.configs.WebDriverProvider;
+import core.pages.BaseWebSite;
+import name.falgout.jeffrey.testing.junit.guice.IncludeModule;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.openqa.selenium.WebDriver;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+@TestInstance(Lifecycle.PER_CLASS)
+@IncludeModule(TestModule.class)
 public class BaseTest {
+    public static final WebConfig config = ConfigFactory.create(WebConfig.class);
 
     @Inject
-    WebDriver driver;
+    BaseWebSiteProvider baseWebSite;
 
+    @Inject
+    WebDriverProvider webDriverProvider;
 
-//    @BeforeAll
-//    static void startDriver() {
-//        driver = DriverManagerFactory.getManager(DriverType.get(config.getDriverType())).getDriver();
-//        atlas = new Atlas(new WebDriverConfiguration(driver, config.getBaseUrl()))
-//                .context(new RetryerContext(new DefaultRetryer(config.getTimeout(), config.getPoolingTimeout(),
-//                        Collections.singletonList(Throwable.class))));
-//        onWebSite = atlas.create(driver, BaseWebSite.class);
-//    }
+    BaseWebSite getWebSite() {
+        return baseWebSite.get();
+    }
+
+    WebDriver getDriver() {
+        return webDriverProvider.get();
+    }
 
     @AfterAll
     static void addingEnvironmentVariablesToAllureReport() throws IOException {
@@ -38,7 +51,7 @@ public class BaseTest {
 
     @AfterEach
     protected void closeDriver() {
-        driver.quit();
+        getDriver().quit();
     }
 
 }
