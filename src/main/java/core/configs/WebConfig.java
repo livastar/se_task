@@ -9,6 +9,7 @@ public interface WebConfig extends Config {
     boolean isRemote();
 
     @Key("driverType")
+    @DefaultValue("firefox")
     String getDriverType();
 
     @Key("baseUrl")

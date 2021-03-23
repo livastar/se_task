@@ -1,8 +1,8 @@
 package com.granitrock.forecast.common;
 
 import com.google.inject.Inject;
-import core.configs.TestModule;
 import core.configs.WebConfig;
+import core.module.WebDriverModule;
 import core.pages.BaseWebSite;
 import name.falgout.jeffrey.testing.junit.guice.IncludeModule;
 import org.aeonbits.owner.ConfigFactory;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@IncludeModule(TestModule.class)
+@IncludeModule(WebDriverModule.class)
 public class BaseTest {
     public static final WebConfig config = ConfigFactory.create(WebConfig.class);
 

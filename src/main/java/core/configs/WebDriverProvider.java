@@ -1,17 +1,17 @@
 package core.configs;
 
-import com.google.inject.Module;
-import com.google.inject.*;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import core.configs.driver.DriverManagerFactory;
 import core.configs.driver.DriverType;
 import org.openqa.selenium.WebDriver;
 
-public class WebDriverProvider implements Module, Provider<WebDriver> {
+public class WebDriverProvider implements Provider<WebDriver> {
 
-    WebConfig webConfig;
+    final WebConfig webConfig;
 
     @Inject
-    public WebDriverProvider(WebConfig webConfig) {
+    public WebDriverProvider(final WebConfig webConfig) {
         this.webConfig = webConfig;
     }
 
@@ -20,7 +20,4 @@ public class WebDriverProvider implements Module, Provider<WebDriver> {
         return DriverManagerFactory.getManager(DriverType.get(webConfig.getDriverType())).getDriver();
     }
 
-    @Override
-    public void configure(Binder binder) {
-    }
 }
