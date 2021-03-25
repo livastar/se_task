@@ -1,8 +1,6 @@
 package core.configs;
 
-import com.google.inject.Binder;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.Provider;
 import core.pages.BaseWebSite;
 import io.qameta.atlas.core.Atlas;
@@ -13,10 +11,10 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.Collections;
 
-public class BaseWebSiteProvider implements Module, Provider<BaseWebSite> {
+public class BaseWebSiteProvider implements Provider<BaseWebSite> {
 
-    WebConfig webConfig;
-    WebDriver webDriver;
+    final WebConfig webConfig;
+    final WebDriver webDriver;
     Atlas atlas;
 
     @Inject
@@ -30,12 +28,7 @@ public class BaseWebSiteProvider implements Module, Provider<BaseWebSite> {
         atlas = new Atlas(new WebDriverConfiguration(webDriver, webConfig.getBaseUrl()))
                 .context(new RetryerContext(new DefaultRetryer(webConfig.getTimeout(), webConfig.getPoolingTimeout(),
                         Collections.singletonList(Throwable.class))));
-
         return atlas.create(webDriver, BaseWebSite.class);
-    }
-
-    @Override
-    public void configure(Binder binder) {
     }
 
 }
