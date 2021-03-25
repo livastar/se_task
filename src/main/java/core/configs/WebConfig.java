@@ -5,14 +5,29 @@ import org.aeonbits.owner.Config;
 @Config.Sources("classpath:dev.properties")
 public interface WebConfig extends Config {
 
-    @Key("remote")
-    boolean isRemote();
+    @Key("remote.driver.host")
+    String getRemoteDriverHost();
 
-    @Key("driverType")
-    @DefaultValue("firefox")
+    @Key("remote.driver.name")
+    String getRemoteDriverName();
+
+    @Key("remote.browser.enable.video")
+    @DefaultValue("false")
+    boolean isVideoEnabled();
+
+    @Key("remote.enable.vnc")
+    @DefaultValue("true")
+    boolean isVncEnabled();
+
+    @Key("driver.headless")
+    @DefaultValue("false")
+    boolean isHeadless();
+
+    @Key("driver.type")
+    @DefaultValue("chrome")
     String getDriverType();
 
-    @Key("baseUrl")
+    @Key("base.url")
     String getBaseUrl();
 
     @Key("timeout")

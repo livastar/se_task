@@ -83,8 +83,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
     compile group: 'org.slf4j', name: 'slf4j-api', version: log4j
 
-    // https://mvnrepository.com/artifact/org.aeonbits.owner/owner
-    implementation group: 'org.aeonbits.owner', name: 'owner', version: '1.0.12'
+    // https://mvnrepository.com/artifact/org.aeonbits.owner/owner-java8
+    implementation group: 'org.aeonbits.owner', name: 'owner-java8', version: '1.0.12'
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
     implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'

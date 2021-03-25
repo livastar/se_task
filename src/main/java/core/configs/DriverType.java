@@ -1,4 +1,4 @@
-package core.configs.driver;
+package core.configs;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
